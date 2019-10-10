@@ -1,4 +1,4 @@
-package testGUI;
+package practiceGUI;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -7,6 +7,7 @@ import java.util.*;
 import java.awt.image.*;
 
 public class TestGUI extends JFrame implements ActionListener{ 
+	
 	static int x = 10, y = 20;
 	boolean KeyUp = false;
 	boolean KeyDown = false;
@@ -93,7 +94,6 @@ public class TestGUI extends JFrame implements ActionListener{
 		}
 		@Override
 		public void keyTyped(KeyEvent e) { 
-			//System.out.println("키가 눌려졌다! ");
 			
 		}
 		public void start() {
@@ -142,6 +142,7 @@ public class TestGUI extends JFrame implements ActionListener{
 			init();
 			new MyPanel();
 		} 	
+	
 	@Override
 	public void actionPerformed(ActionEvent g) {
 		if (g.getSource() == button1) { 

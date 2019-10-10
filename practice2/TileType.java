@@ -2,7 +2,7 @@ package practice2;
 
 public enum TileType {
 	
-	Dirt("testTile", true);
+	Dirt("testTile", true), Tree("tree", true);
 	
 	String textureName;
 	boolean buildable;
