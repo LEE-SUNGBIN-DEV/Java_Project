@@ -1,7 +1,8 @@
 package practice2;
 
 import org.newdawn.slick.opengl.Texture;
-import static practice2.Boot.*;
+
+import static practice2.Manager.*;
 
 public class Tile {
 	
