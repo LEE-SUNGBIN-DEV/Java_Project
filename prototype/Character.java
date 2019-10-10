@@ -1,4 +1,4 @@
-package Practice;
+package prototype;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

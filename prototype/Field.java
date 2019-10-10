@@ -1,82 +1,31 @@
 package prototype;
-
-import java.awt.Frame;
-import java.awt.List;
-import java.awt.Panel;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import test.KeyListenerTest.WindowHandler;
+import java.util.*;
+import java.awt.*;
+import java.awt.List;
 
 
-/*
-
- 		Map Structure
- 		
- 	1 2 3 4 5 6 7 8 9 10		
-1	# # # # # # # # # #				<기호 설명>
-2	#        		  # 			  #    : 지형지물
-3	#   # #  	# #   #			      *    : 캐릭터 생성 위치
-4	#   # #  	# #	  #		    	number : 좌표		   
-5	#         		  #		     
-6	#        		  #		       <지형 지물 좌표>	  
-7	#         	# #   #				(3, 3), (3, 4)		(7, 3), (7, 4)
-8	#   *      	# #   #				(4, 3), (4, 4)		(8, 3), (8, 4)
-9	#         		  #
-10	# # # # # # # # # #									(7, 7), (7, 8)
-														(8, 7), (8, 8)
-
-
-*/
-
-
-public class TutorialMap {
-	int[][] terrianLocation;
-	Tile[][] tile;
-	public TutorialMap() {
-		 // 11 X 11 지형지물 정보
-		 /*this.terrianLocation = new int[][] {
-			 {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0},
-			 {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0},
-			 {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0},
-			 {0}, {0}, {0}, {1}, {1}, {0}, {0}, {1}, {1}, {0}, {0},
-			 {0}, {0}, {0}, {1}, {1}, {0}, {0}, {1}, {1}, {0}, {0},
-			 {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0},
-			 {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0},
-			 {0}, {0}, {0}, {0}, {0}, {0}, {0}, {1}, {1}, {0}, {0},
-			 {0}, {0}, {0}, {0}, {0}, {0}, {0}, {1}, {1}, {0}, {0},
-			 {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0},
-			 {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0},
-		 };
-		 
-		 // 지형지물 정보를 참조해 타일맵 생성
-		 for(int i = 1; i < 11; i++) {
-				for(int j = 1; j < 11; j++) {
-					tile[i][j] = new Tile(i, j);
-					if(i == 1 || j == 1 || i == 10 || j == 10) {
-						tile[i][j].wallInfo = true;
-						continue;
-					}
-					if(terrianLocation[i][j] == 1) {
-						tile[i][j].terrainInfo = true;	// 지형지물이 존재함(튜토리얼 맵에서는 모든 지형지물을 부술 수 있음)
-					}
-				}
-			}*/
-		 
-		for(int i = 1; i < 11; i++) {
-			for(int j = 1; j < 11; j ++) {
-				tile[i][j] = new Tile(i, j);
-			}
-		}
-		
-		 // 캐릭터의 위치 생성
-		 Character player = new Character();
-		 tile[3][8].characterList.add(player);
+public class Field {
+	public Field(int i, int j) {
+		this.x = (double)i;
+		this.y = (double)j;
+		terrainInfo = null;
+		itemInfo = null;
+		bubbleInfo = null;
+		characterList = new LinkedList();
 	}
+	Terrain terrainInfo;
+	Item itemInfo;
+	Bubble bubbleInfo;
+	java.util.List<Character> characterList;
+	double width;
+	double height;
 	
 	public static void main(String args[]) {
-		
+			
 		new KeyListenerTest();
 		
 	}
@@ -180,4 +129,3 @@ class KeyListenerTest extends Frame {
 		System.out.println(str);
 	}
 }
-
