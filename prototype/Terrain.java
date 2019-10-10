@@ -1,4 +1,4 @@
-package prototype;
+package Practice;
 
 public class Terrain {
 

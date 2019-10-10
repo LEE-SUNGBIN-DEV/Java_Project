@@ -1,4 +1,4 @@
-package prototype;
+package Practice;
 
 public class Bubble {
 	public Bubble(int range) { // 인자가 한 개일 땐, 둘 중 하나를 기본값으로 전달

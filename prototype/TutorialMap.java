@@ -1,4 +1,4 @@
-package prototype;
+package test;
 
 import java.awt.Frame;
 import java.awt.List;
@@ -36,7 +36,7 @@ public class TutorialMap {
 	Tile[][] tile;
 	public TutorialMap() {
 		 // 11 X 11 지형지물 정보
-		 /*this.terrianLocation = new int[][] {
+		 this.terrianLocation = new int[][] {
 			 {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0},
 			 {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0},
 			 {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0},
@@ -62,14 +62,8 @@ public class TutorialMap {
 						tile[i][j].terrainInfo = true;	// 지형지물이 존재함(튜토리얼 맵에서는 모든 지형지물을 부술 수 있음)
 					}
 				}
-			}*/
-		 
-		for(int i = 1; i < 11; i++) {
-			for(int j = 1; j < 11; j ++) {
-				tile[i][j] = new Tile(i, j);
 			}
-		}
-		
+		 
 		 // 캐릭터의 위치 생성
 		 Character player = new Character();
 		 tile[3][8].characterList.add(player);
