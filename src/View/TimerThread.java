@@ -41,8 +41,8 @@ public class TimerThread extends JLabel implements Runnable{
 
 	public void start() 
 	{
-//		if(myThread == null) myThread = new Thread(this);
-//		myThread.start();
+		if(myThread == null) myThread = new Thread(this);
+		myThread.start();
 	}
 	
 	public void stop()
@@ -59,7 +59,12 @@ public class TimerThread extends JLabel implements Runnable{
 			{
 				for(int j=nStart2; j>=0; j--)
 				{
-					while(pause_flag) { System.out.println("suspend"); }
+					while(pause_flag) {
+						if(i == 60) j = 0;
+						if(j >= 10)
+							 setText(Integer.toString(i) + ":" + Integer.toString(j));
+						else setText(Integer.toString(i) + ":0" + Integer.toString(j));
+						}//System.out.println("suspend"); }
 					if(i == 60) j = 0;
 					if(j >= 10)
 						 setText(Integer.toString(i) + ":" + Integer.toString(j));
