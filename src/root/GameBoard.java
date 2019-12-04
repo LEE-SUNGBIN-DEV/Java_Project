@@ -25,7 +25,9 @@ public class GameBoard extends JPanel implements Runnable {
 	private int click;
 	private Point pos;
 	private TileGrid grid;
-	private boolean isSwap, isMoving;
+	
+	private boolean isSwap, isMoving, isAnimating;
+
 	private Thread th;
 	private File f2;
 	
@@ -39,6 +41,7 @@ public class GameBoard extends JPanel implements Runnable {
 		setPreferredSize(new Dimension(400, 400));
 		this.grid = grid;
 		isSwap = isMoving = false;
+		isAnimating = true;
 		click = 0;
 		th.start();
 		addMouseListener(new MouseListener() {
@@ -121,34 +124,8 @@ public class GameBoard extends JPanel implements Runnable {
 	public void run()
 	{
 		while(true) {
-			///////// match
-			if(isMoving == false){
-				for (int i = 1; i <= 8; i++) {
-					for (int j = 1; j <= 8; j++) {
-
-						// 세로줄의 검사
-						if (i != 8 && grid.GetTile(i,j).getType() == grid.GetTile(i+1, j).getType()) {
-							if (i != 1 && grid.GetTile(i,j).getType() == grid.GetTile(i-1, j).getType()) {
-								for (int n = -1; n <= 1; n++) {
-									grid.GetTile(i+n, j).setMatch(grid.GetTile(i+n, j).getMatch()+1);
-								}
-							}
-						}
-
-						// 가로줄의 검사
-						if (j != 8 && grid.GetTile(i, j).getType() == grid.GetTile(i, j+1).getType()) {
-							if (j != 1 && grid.GetTile(i, j).getType() == grid.GetTile(i, j-1).getType()) {
-								for (int n = -1; n <= 1; n++) {
-									grid.GetTile(i, j+n).setMatch(grid.GetTile(i, j+n).getMatch()+1);
-								}
-							}
-						}
-					}
-				}
-			}
-			/////////
-			
 			// moving animaion
+			isAnimating = true;
 			isMoving = false;
 			for(int i = 1; i <= 8; i++) {
 				for(int j = 1; j <= 8; j++) {
@@ -157,158 +134,47 @@ public class GameBoard extends JPanel implements Runnable {
 					int dx, dy;
 					tx = t.getX();
 					ty = t.getY();
-					
+
 					dx = tx - t.getCol() * t.tileSize;
 					dy = ty - t.getRow() * t.tileSize;
 					if(dx != 0) { t.setX(tx - dx/abs(dx)); repaint();}
 					if(dy != 0) { t.setY(ty - dy/abs(dy)); repaint();}
 					if(dx != 0 || dy != 0) isMoving = true;
-					
+
 				}
 			}
-			
+
 			// delete animation
 			if(isMoving == false) {
-			for(int i = 1; i <= 8; i++) {
-				for(int j = 1; j <= 8; j++) {
-					Tile t = grid.GetTile(i, j);
-					if(t.getMatch() >= 1) {
-						if(t.getAlpha()>=0.008f) {
-							t.setAlpha(t.getAlpha()-0.008f);
-							isMoving = true;
-							repaint();
+				for(int i = 1; i <= 8; i++) {
+					for(int j = 1; j <= 8; j++) {
+						Tile t = grid.GetTile(i, j);
+						if(t.getMatch() >= 1) {
+							if(t.getAlpha()>=0.008f) {
+								t.setAlpha(t.getAlpha()-0.008f);
+								isMoving = true;
+								repaint();
+							}
 						}
+//						if(t.getAlpha() <= 0.011f) {
+//							SoundThread mu = new SoundThread(f2);
+//							mu.play();
+//						}
+
 					}
-					if(t.getAlpha() <= 0.011f) {
-//						t.setMatch(0);
-//						SoundThread mu = new SoundThread(f2);
-//						mu.play();
-					}
-					
 				}
-			}
 			}
 			
-			if(isMoving == false)
-			{
-				int score = 0;
-				for (int i=1;i<=8;i++) {
-					for (int j=1;j<=8;j++) {
-						score += grid.GetTile(i, j).getMatch();
-					}
-				}
-			
-				if (isSwap == true) {
-					if (score == 0) {
-						int tmp;
-						tmp= grid.GetTile(y0,  x0).getCol();
+			if(isMoving == false) isAnimating = false; // 무빙이 없다면 애니메이팅 종료를 알림 -> Match 쓰레드에서 기능 실행
 
-						//System.out.println("Before Col: " + tmp);
-						//System.out.println("Before Row: " + grid.GetTile(x0, y0).getRow());
-						grid.GetTile(y0, x0).setCol(grid.GetTile(y, x).getCol());
-						grid.GetTile(y, x).setCol(tmp);
-						//System.out.println("After Col: " + grid.GetTile(x0, y0).getCol());
-						
-						tmp= grid.GetTile(y0,  x0).getRow();
-						grid.GetTile(y0, x0).setRow(grid.GetTile(y, x).getRow());
-						grid.GetTile(y, x).setRow(tmp);
-						//System.out.println("After Row: " + grid.GetTile(x0, y0).getRow());
-					
-						Tile tmpTile = grid.GetTile(y0, x0);
-						grid.SetTile(y0, x0, grid.GetTile(y, x));
-						grid.SetTile(y, x, tmpTile);
-						
-						System.out.println("매치되지 않아서 돌려보냄");
-					}
-					
-				}
-				isSwap = false;
-			//if (grid[i][j].alpha>10) {grid[i][j].alpha-=10; isMoving=true;}
-			}
-			/////////
-			//update grid
-			if(isMoving == false) {
-				for (int i = 8; i > 0; i--) {
-					for (int j = 1; j <= 8; j++) {
-						if (grid.GetTile(i, j).getMatch()>=1) {
-							for (int n = i; n > 0; n--) {
-								if (grid.GetTile(n, j).getMatch() == 0) {
-									System.out.println("스왑전 : " + grid.GetTile(n, j).getRow() + " " + grid.GetTile(n, j).getCol());
-									System.out.println("스왑전 : " + grid.GetTile(i, j).getRow() + " " + grid.GetTile(i, j).getCol());
-									int tmp;							
-									
-									tmp= grid.GetTile(n,  j).getRow();
-									grid.GetTile(n, j).setRow(grid.GetTile(i, j).getRow());
-									grid.GetTile(i, j).setRow(tmp);
-									
-									tmp= grid.GetTile(n,  j).getCol();
-									grid.GetTile(n, j).setCol(grid.GetTile(i, j).getCol());
-									grid.GetTile(i, j).setCol(tmp);
-									
-									System.out.println("스왑후 :" + grid.GetTile(n, j).getRow() + " " + grid.GetTile(n, j).getCol());
-									System.out.println("스왑후 :" + grid.GetTile(i, j).getRow() + " " + grid.GetTile(i, j).getCol());
-									
-									Tile tmpTile = grid.GetTile(n, j);
-									grid.SetTile(n, j, grid.GetTile(i, j));
-									grid.SetTile(i, j, tmpTile);
-									
-									/*
-									 */
-									
-									break;
-								} // if
-							} // for n
-						} // if
-					}
-				}
-
-
-				for (int j = 1; j <= 8; j++) {
-					for (int i = 8, n = 0; i > 0; i--) {
-						if (grid.GetTile(i, j).getMatch()>=1) {
-							int randomNumber = random.nextInt(5) + 1;
-							switch(randomNumber)
-							{
-							case 1:
-								grid.GetTile(i, j).setType(TileType.Banana);
-								break;
-							case 2:
-								grid.GetTile(i, j).setType(TileType.Grapes);
-								break;
-							case 3:
-								grid.GetTile(i, j).setType(TileType.Lemon);
-								break;
-							case 4:
-								grid.GetTile(i, j).setType(TileType.Orange);
-								break;
-							case 5:
-								grid.GetTile(i, j).setType(TileType.Pear);
-								break;
-							}
-							
-							try {
-								grid.GetTile(i, j).setBi(ImageIO.read(new File(grid.GetTile(i, j).getType().getPath())));
-							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-							grid.GetTile(i, j).setImage(grid.GetTile(i, j).getBi().getScaledInstance(40, 40, Image.SCALE_SMOOTH));
-							grid.GetTile(i, j).setY(-42 * n++); // tilesize = 42
-							grid.GetTile(i, j).setMatch(0);
-							grid.GetTile(i, j).setAlpha(1.0f);
-						}
-					}
-				}
-			}
-			////////
 			try {
-				Thread.sleep(3);
+				Thread.sleep(4);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
 	}
-	
+
 	public void paintComponent(Graphics g) {
 		
 		super.paintComponent(g);
@@ -335,4 +201,59 @@ public class GameBoard extends JPanel implements Runnable {
 		paint(g);
 	}
 	
+	public boolean getIsAnimating() {
+		return isAnimating;
+	}
+
+	public void setIsAnimating(boolean isAnimating) {
+		this.isAnimating = isAnimating;
+	}
+	
+	public boolean getIsSwap() {
+		return isSwap;
+	}
+
+	public void setIsSwap(boolean isSwap) {
+		this.isSwap = isSwap;
+	}
+
+	public boolean getIsMoving() {
+		return isMoving;
+	}
+
+	public void setIsMoving(boolean isMoving) {
+		this.isMoving = isMoving;
+	}
+	
+	public int getX0() {
+		return x0;
+	}
+
+	public void setX0(int x0) {
+		this.x0 = x0;
+	}
+
+	public int getY0() {
+		return y0;
+	}
+
+	public void setY0(int y0) {
+		this.y0 = y0;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
 }

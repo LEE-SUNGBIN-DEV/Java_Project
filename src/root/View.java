@@ -11,9 +11,9 @@ import javax.swing.JPanel;
 public class View {
 
 	private JFrame frame;
-	private JPanel primary;
-	private GameBoard board;
+	private GameBoard primary;
 	private TileGrid grid;
+	private Match match;
 	
 	Graphics gc;
 	
@@ -54,6 +54,10 @@ public class View {
 		
 		grid = new TileGrid();
 		primary = new GameBoard(grid);
+		match = new Match(grid, primary);
+		Thread matchThread = new Thread(match);
+		
+		matchThread.start();
 		
 		frame.getContentPane().add(primary, BorderLayout.CENTER);
 		
