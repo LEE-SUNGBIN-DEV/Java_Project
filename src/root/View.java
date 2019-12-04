@@ -14,7 +14,6 @@ public class View {
 	private JPanel primary;
 	private GameBoard board;
 	private TileGrid grid;
-	private Match match;
 	
 	Graphics gc;
 	
@@ -54,10 +53,8 @@ public class View {
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		grid = new TileGrid();
-		match = new Match(grid);
-		Thread th = new Thread(match);
-		th.start();
 		primary = new GameBoard(grid);
+		
 		frame.getContentPane().add(primary, BorderLayout.CENTER);
 		
 		SoundPanel newPanel = new SoundPanel();

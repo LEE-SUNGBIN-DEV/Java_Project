@@ -1,9 +1,13 @@
 package root;
 
+import java.util.Random;
+
+//현재 사용하지 않는 클래스
 public class Match implements Runnable
 {
 	TileGrid grid;
-
+	private Random random = new Random();
+	
 	public Match(TileGrid grid)
 	{
 		this.grid = grid;
@@ -20,7 +24,8 @@ public class Match implements Runnable
 					if (i != 8 && grid.GetTile(i,j).getType() == grid.GetTile(i+1, j).getType()) {
 						if (i != 1 && grid.GetTile(i,j).getType() == grid.GetTile(i-1, j).getType()) {
 							for (int n = -1; n <= 1; n++) {
-								grid.GetTile(i+n, j).setMatch(grid.GetTile(i+n, j).getMatch()+1);
+								if(grid.GetTile(i+n, j).getMatch() != 1)
+									grid.GetTile(i+n, j).setMatch(grid.GetTile(i+n, j).getMatch()+1);
 							}
 						}
 					}
@@ -29,12 +34,14 @@ public class Match implements Runnable
 					if (j != 8 && grid.GetTile(i, j).getType() == grid.GetTile(i, j+1).getType()) {
 						if (j != 1 && grid.GetTile(i, j).getType() == grid.GetTile(i, j-1).getType()) {
 							for (int n = -1; n <= 1; n++) {
-								grid.GetTile(i, j+n).setMatch(grid.GetTile(i, j+n).getMatch()+1);
+								if(grid.GetTile(i, j+n).getMatch() != 1)
+									grid.GetTile(i, j+n).setMatch(grid.GetTile(i, j+n).getMatch()+1);
 							}
 						}
 					}
 				}
 			}
+			
 			
 			try {
 				Thread.sleep(200);
