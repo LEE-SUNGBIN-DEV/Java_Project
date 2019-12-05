@@ -7,7 +7,10 @@ public enum TileType {
 	Lemon("lemon.png"),
 	Orange("orange.png"),
 	Pear("pear.png"),
-	Strawberry("strawberry.png");
+	Strawberry("strawberry.png"),
+	Cross("stick-plus.png"),
+	Vertical("stick-vertical.png"),
+	Horizontal("stick-horizontal.png");
 
 	private String texturePath;
 	

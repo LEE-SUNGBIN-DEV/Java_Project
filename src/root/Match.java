@@ -97,7 +97,7 @@ public class Match implements Runnable {
 				for (int j = 1; j <= 6; j++) {
 					for (int i = 8, n = 0; i > 0; i--) {
 						if (grid.GetTile(i, j).getMatch()>=1) {
-							int randomNumber = random.nextInt(5) + 1;
+							int randomNumber = random.nextInt(8) + 1;
 							switch(randomNumber)
 							{
 							case 1:
@@ -114,6 +114,15 @@ public class Match implements Runnable {
 								break;
 							case 5:
 								grid.GetTile(i, j).setType(TileType.Pear);
+								break;
+							case 6:
+								grid.GetTile(i, j).setType(TileType.Vertical);
+								break;
+							case 7:
+								grid.GetTile(i, j).setType(TileType.Horizontal);
+								break;
+							case 8:
+								grid.GetTile(i, j).setType(TileType.Cross);
 								break;
 							}
 

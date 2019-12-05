@@ -31,6 +31,7 @@ public class TileGrid extends JPanel implements Runnable {
 	private boolean isProcess;
 	private boolean isAnimating;
 	private boolean isSwap;
+	private boolean isPressed;
 	private Point pos;
 	
 	public TileGrid() {
@@ -39,6 +40,7 @@ public class TileGrid extends JPanel implements Runnable {
 		setBounds(47, 135, 400, 500);
 		click = 0;
 		isProcess = true;
+		isPressed = false;
 		
 		// create random map
 		grid = new Tile[HEIGHT][WIDTH];
@@ -74,6 +76,7 @@ public class TileGrid extends JPanel implements Runnable {
 				
 				System.out.println("isSwap: "+isSwap);
 				System.out.println("isMoving: "+isMoving);
+				
 				if (!isSwap && !isMoving)
 					click++;
 				pos = e.getPoint();
@@ -84,6 +87,7 @@ public class TileGrid extends JPanel implements Runnable {
 					// y좌표는 행*size
 					x0 = pos.x / Tile.tileSize;
 					y0 = pos.y / Tile.tileSize;
+					isPressed = true;
 					System.out.println("x0: " + x0);
 					System.out.println("y0: " + y0);
 				}
@@ -92,11 +96,9 @@ public class TileGrid extends JPanel implements Runnable {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				
-				if (!isSwap && !isMoving)
+				if (isPressed == true) {
 					click++;
-				pos = e.getPoint();
-				
-				if (click == 2) {
+					pos = e.getPoint();
 					x = pos.x / Tile.tileSize;
 					y = pos.y / Tile.tileSize;
 					System.out.println("x: " + x);
@@ -104,12 +106,81 @@ public class TileGrid extends JPanel implements Runnable {
 					if (abs(x - x0) + abs(y - y0) == 1) {
 						Calculator.swapTileInfo(grid, y, x, y0, x0);
 						isSwap = true;
-						click = 0;
-					} else {
+						
+						//가로 지우는 아이템일 경우
+						if(grid[y0][x0].getType() == TileType.Horizontal || (grid[y][x].getType() == TileType.Horizontal)) {
+							System.out.println("I find it");
+							if(grid[y0][x0].getType() == TileType.Horizontal)
+							{
+								for(int k=1; k<=WIDTH-1; k++)
+								{
+									grid[y0][k].setMatch(grid[y0][k].getMatch()+1);
+								}
+							} // 첫번째 클릭이 가로지우는 아이템인 경우
+							if(grid[y][x].getType() == TileType.Horizontal)
+							{
+								for(int k=1; k<=WIDTH-1; k++)
+								{
+									grid[y][k].setMatch(grid[y][k].getMatch()+1);
+								}
+							} // 2번째 클릭이 가로지우는 아이템인 경우
+						}
+
+						//세로 지우는 아이템일 경우
+						if(grid[y0][x0].getType() == TileType.Vertical || grid[y][x].getType() == TileType.Vertical) {
+							System.out.println("I find it 2");
+							if(grid[y0][x0].getType() == TileType.Vertical)
+							{
+								for(int k=1; k<=HEIGHT-1; k++)
+								{
+									grid[k][x0].setMatch(grid[k][x0].getMatch()+1);
+								}
+							} // 첫번째 클릭이 세로지우는 아이템인 경우
+							if(grid[y][x].getType() == TileType.Vertical)
+							{
+								for(int k=1; k<=HEIGHT-1; k++)
+								{
+									grid[k][x].setMatch(grid[k][x].getMatch()+1);
+								}
+							} // 2번째 클릭이 세로지우는 아이템인 경우
+						}
+
+						//cross아이템인 경우
+						if(grid[y0][x0].getType() == TileType.Cross || grid[y][x].getType() == TileType.Cross) 
+						{
+							if(grid[y0][x0].getType() == TileType.Cross) // 첫번째 클릭한 값이 cross아이템인 경우
+							{
+								System.out.println("cross == >");
+								for(int k=1; k<=HEIGHT-1; k++)
+								{
+									grid[k][x0].setMatch(grid[k][x0].getMatch()+1);
+								}
+								for(int k=1; k<=WIDTH-1; k++)
+								{
+									grid[y0][k].setMatch(grid[y0][k].getMatch()+1);
+								}
+							}
+
+							if(grid[y][x].getType() == TileType.Cross)
+							{
+								for(int k=1; k<=HEIGHT-1; k++)
+								{
+									grid[k][x].setMatch(grid[k][x].getMatch()+1);
+								}
+								for(int k=1; k<=WIDTH-1; k++)
+								{
+									grid[y][k].setMatch(grid[y][k].getMatch()+1);
+								}
+							}
+						} // cross아이템인 경우
+					}
+					else {
 						x0 = x;
 						y0 = y;
-						click = 0;
 					}
+					
+					click = 0;
+					isPressed = false;
 				}
 			}
 
