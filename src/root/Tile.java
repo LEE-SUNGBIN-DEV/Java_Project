@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 
 public class Tile {
 
-	public static final int tileSize = 42;
+	public static final int tileSize = 50;
 	private int x, y;
 	private int col, row;
 	private int match;
@@ -23,7 +23,6 @@ public class Tile {
 		try {
 			bi = ImageIO.read(new File(type.getPath()));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		image = bi.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
@@ -33,7 +32,7 @@ public class Tile {
 		col = j;
 		x = j * tileSize;
 		
-		alpha = 1.0f;
+		alpha = 0.8f;
 		match = 0;
 	}
 	
