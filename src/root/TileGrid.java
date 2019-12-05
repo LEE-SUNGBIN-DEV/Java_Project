@@ -86,8 +86,16 @@ public class TileGrid extends JPanel implements Runnable {
 					y0 = pos.y / Tile.tileSize;
 					System.out.println("x0: " + x0);
 					System.out.println("y0: " + y0);
-					
 				}
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				
+				if (!isSwap && !isMoving)
+					click++;
+				pos = e.getPoint();
+				
 				if (click == 2) {
 					x = pos.x / Tile.tileSize;
 					y = pos.y / Tile.tileSize;
@@ -100,13 +108,9 @@ public class TileGrid extends JPanel implements Runnable {
 					} else {
 						x0 = x;
 						y0 = y;
-						click = 1;
+						click = 0;
 					}
 				}
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
 			}
 
 			@Override
