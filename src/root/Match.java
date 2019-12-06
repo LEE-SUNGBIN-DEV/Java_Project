@@ -133,7 +133,7 @@ public class Match implements Runnable {
 								e.printStackTrace();
 							}
 							grid.GetTile(i, j).setImage(grid.GetTile(i, j).getBi().getScaledInstance(40, 40, Image.SCALE_SMOOTH));
-							grid.GetTile(i, j).setY(-42 * n++); // tilesize = 42
+							grid.GetTile(i, j).setY(-50 * n++); // tilesize = 50
 							grid.GetTile(i, j).setMatch(0);
 							grid.GetTile(i, j).setAlpha(1.0f);
 						}

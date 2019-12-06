@@ -21,6 +21,7 @@ public class View {
 	private Match match;
 	private Thread matchThread;
 	
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -52,6 +53,7 @@ public class View {
 		gameBoardBufferedImage = new ImageIcon("./img/Texture.png").getImage().getScaledInstance(300, 400, Image.SCALE_SMOOTH);
 		
 		backgroundPanel = new Background(backgroundBufferedImage, processBufferedImage, gameBoardBufferedImage);
+		
 		
 		grid = new TileGrid();
 
