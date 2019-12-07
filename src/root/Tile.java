@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 
 public class Tile {
 
-	public static final int tileSize = 42;
+	public static final int tileSize = 50;
 	private int x, y;
 	private int col, row;
 	private int match;
@@ -18,6 +18,32 @@ public class Tile {
 	private Image image;
 	private BufferedImage bi;
 	
+	public Tile(int i, int j, TileType type) {
+		this.type = type;
+		try {
+			bi = ImageIO.read(new File(type.getPath()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		image = bi.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+		row = i;
+		y = i * tileSize;
+		
+		col = j;
+		x = j * tileSize;
+		
+		alpha = 0.8f;
+		match = 0;
+	}
+	
+	public BufferedImage getBi() {
+		return bi;
+	}
+
+	public void setBi(BufferedImage bi) {
+		this.bi = bi;
+	}
+
 	public int getMatch() {
 		return match;
 	}
@@ -32,24 +58,6 @@ public class Tile {
 
 	public void setAlpha(float alpha) {
 		this.alpha = alpha;
-	}
-
-	public Tile(int i, int j, TileType type)
-	{
-		this.type = type;
-		try {
-			bi = ImageIO.read(new File(type.getPath()));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		image = bi.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
-		col = i;
-		row = j;
-		x = i * tileSize;
-		y = j * tileSize;
-		alpha = 1.0f;
-		match = 0;
 	}
 	
 	public Image getImage() {
