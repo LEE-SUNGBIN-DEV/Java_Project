@@ -1,108 +1,140 @@
 package Controller;
 
-import View.*;
-
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 
-import Model.*;
+import Model.Match;
+import Model.Music;
+import Model.TileGrid;
+import View.GameBoardPanel;
+import View.OrchardView;
 
 public class OrchardController {
 
-	private OrchardModel 	model;
-	private OrchardView 	view;
+	private OrchardView _orchardView;
+	private GameBoardPanel _gameBoard;
+	private Music backgroundMusic;
 	
-	private boolean isClicked;
-	private int 	oldX;
-	private int 	oldY;
+	private TileGrid grid;
+	private Match match;
+	private Thread matchThread;
 	
-	public OrchardController(OrchardModel model, OrchardView view)
-	{
-		this.model = model;
-		this.view = view;
+	public OrchardController() {
+		
+		_orchardView = new OrchardView();
+		_orchardView.addStartbtnListener(new startbtnListener());
+		_orchardView.addExitbtnListener(new exitbtnListener());
+		
+		backgroundMusic = new Music("BackgroundMusic.mp3", true);
+		backgroundMusic.start();
 	}
 	
-	void startGame()
-	{
-		view.addMouseListener(new SwapMouseListener());
-		view.addMouseMotionListener(new SwapMouseListener());
-		//view.Update(model.map.getIntGird());
+	
+	// 게임 시작화면으로 전환, 배경음악 전환 및 타이머 스타트
+	public void gameStart() {
+		
+			grid = new TileGrid();
+			match = new Match(grid);
+			matchThread = new Thread(match);
+			matchThread.start();
+			
+			_gameBoard = new GameBoardPanel(grid);
+			_gameBoard.addGameListener(new gameListener());
+			_orchardView.changeToGameView(_gameBoard);
+
+			backgroundMusic.close();
+			backgroundMusic = new Music("ProcessGameMusic.mp3", true);
+			backgroundMusic.start();
+			
+	}
+		
+	public void endGame() {
+		
+		grid = null;
+		
+		// singleton 활용방안 모색
+		match.stop();
+		match = null;
+		
+		_gameBoard = null;
+		_orchardView.changeToLoginView();
+		
+		backgroundMusic.close();
+		backgroundMusic = new Music("BackgroundMusic.mp3", true);
+		backgroundMusic.start();
 	}
 	
-	class SwapMouseListener implements MouseListener, MouseMotionListener
-	{
-		// MouseMotionListener Methods
+	private class gameListener implements MouseListener {
 		@Override
-		public void mouseDragged(MouseEvent e)
-		{
-			// why 50?
-			if(isClicked)
-			{
-				if(e.getX() - oldX > model.tileLength) // right
-					Swap.swapTile(oldX/50, oldY/50, oldX/50 + 1, oldY/50, model.map);
-				
-				if(e.getX() - oldX < model.tileLength)
-					Swap.swapTile(oldX/50, oldY/50, oldX/50 + 1, oldY/50, model.map);
-				
-				if(e.getY() - oldY > model.tileLength)
-					Swap.swapTile(oldX/50, oldY/50, oldX/50, oldY/50 + 1, model.map);
-				
-				if(e.getY() - oldY < model.tileLength)
-					Swap.swapTile(oldX/50, oldY/50, oldX/50, oldY/50 - 1, model.map);
-				isClicked = false;
-				System.out.println("swaped");
-				//view.Update(model.map.getIntGird());
-			}
+		public void mousePressed(MouseEvent e) {
+			grid.addCheckCount();
+			grid.clickCheck(e.getPoint());
 		}
 
 		@Override
-		public void mouseMoved(MouseEvent e) 
-		{
+		public void mouseReleased(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+		}
+	}
+	
+	private class startbtnListener implements MouseListener {
+		@Override
+		public void mouseClicked(MouseEvent e) {
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			gameStart();
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+		}
+	}
+	
+	private class exitbtnListener implements MouseListener{
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			System.exit(1);
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
 			
 		}
 		
-		// MouseListener Methods
-		@Override
-		public void mouseClicked(MouseEvent e) 
-		{
-			// nothing happen
-		}
-
-		@Override
-		public void mousePressed(MouseEvent e)
-		{
-			isClicked = true;
-			oldX = e.getX();
-			oldY = e.getY();
-		}
-
-		@Override
-		public void mouseReleased(MouseEvent e)
-		{
-			isClicked = false;
-		}
-
-		@Override
-		public void mouseEntered(MouseEvent e)
-		{
-			// 과일들 강조효과
-		}
-
-		@Override
-		public void mouseExited(MouseEvent e) 
-		{
-			// 과일들 강조효과 해제
-		}
-		
-	}
-	
-	public static void main(String[] args)
-	{
-		OrchardModel 	model = new OrchardModel();
-		OrchardView 	view  = new OrchardView();
-		OrchardController controller = new OrchardController(model, view);
-
-		controller.startGame();
 	}
 }

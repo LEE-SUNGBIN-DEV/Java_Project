@@ -1,56 +1,62 @@
 package View;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.MouseListener;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
+@SuppressWarnings("serial")
 public class OrchardView extends JFrame{
-	
-	private JPanel 		 mainPanel;
-	private MenuPanel	 menuPanel;
-	private TitlePanel	 titlePanel;
-	private OrchardBoard gameBoard;
-	private final int WIDTH  = 720;
-	private final int HEIGHT = 720;
-	public OrchardView()
-	{
-		// initialize main Frame
-		setTitle("Orchard");
-		setUndecorated(true);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setResizable(false);
-		setVisible(true);
-		
 
-		mainPanel = new JPanel();
-		mainPanel.setBackground(Color.white);
-		mainPanel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-		mainPanel.setLayout(new BorderLayout());
+	public static int SCREEN_WIDTH = 480 + 120, SCREEN_HEIGHT = 600 + 80;
+
+	private LoginView loginPanel;
+	private ProcessGameView processGamePanel;
+	
+	public OrchardView() {
+		initialize();
+	}
+
+	private void initialize() {
+	
+		// Frame초기화
+		setUndecorated(true);
+		setVisible(true);
+		setTitle("Orchard");
+		setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		gameBoard = new OrchardBoard();
-		menuPanel = new MenuPanel();
-		titlePanel = new TitlePanel();
+		// 프로그램에 필요한 패널들을 미리 생성
+		loginPanel = new LoginView();
+		loginPanel.setVisible(true);
+		add(loginPanel);
 		
+		processGamePanel = new ProcessGameView();
+		processGamePanel.setVisible(false);
+		add(processGamePanel);
 		
-		mainPanel.add(gameBoard, BorderLayout.CENTER);
-		mainPanel.add(menuPanel, BorderLayout.EAST);
-		mainPanel.add(titlePanel, BorderLayout.NORTH);
-		
-		getContentPane().add(mainPanel);
 		pack();
+
 		setLocationRelativeTo(null);
 	}
 	
-	public void gridDraw()
-	{
-		
+	public void changeToGameView(GameBoardPanel gameBoard) {
+		loginPanel.setVisible(false);
+		processGamePanel.add(gameBoard);
+		processGamePanel.setVisible(true);
 	}
 	
-	public void Update(int[][] intGrid)
-	{
+	public void changeToLoginView() {
+		processGamePanel.setVisible(false);
+		loginPanel.setVisible(true);
+	}
+	
+	public void addStartbtnListener(MouseListener listener) {
+		loginPanel.addStartbtnListener(listener);
+	}
+	
+	public void addExitbtnListener(MouseListener listener) {
+		loginPanel.addExitbtnListner(listener);
 	}
 }

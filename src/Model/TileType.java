@@ -2,12 +2,20 @@ package Model;
 
 public enum TileType {
 
-	Grapes("grapes"), Lemon("lemon");
+	Grapes("apple.png"),
+	Banana("banana.png"),
+	Lemon("lemon.png"),
+	Orange("orange.png"),
+	Pear("pear.png"),
+	Strawberry("strawberry.png");
 
-	String textureName;
+	private String texturePath;
 	
-	TileType(String textureName)
-	{
-		this.textureName = textureName;
+	private TileType(String texturePath) {
+		this.texturePath = texturePath;
+	}
+	
+	public String getPath() {
+		return "img/" + texturePath;
 	}
 }
