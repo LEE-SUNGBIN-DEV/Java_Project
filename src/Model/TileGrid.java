@@ -33,9 +33,8 @@ public class TileGrid implements Runnable {
 	private int deleteCnt;
 	
 	private boolean isMoving;
-	private boolean isAnimating;
 	private boolean isSwap;
-	
+
 	private Timer _gameTimer;
 	
 	public TileGrid() {
@@ -103,14 +102,14 @@ public class TileGrid implements Runnable {
 		if (!isSwap && !isMoving)
 			click++;
 	}
-	
+
 	@Override
 	public void run() {
-		try {
+		synchronized(this) {
 			while (true) {
-				
+
+				Calculator.matchCheck(this);
 				// moving animaion
-				isAnimating = true;
 				isMoving = false;
 				for (int i = 1; i <= 8; i++) {
 					for (int j = 1; j <= 6; j++) {
@@ -136,31 +135,27 @@ public class TileGrid implements Runnable {
 
 				// delete animation
 				if (isMoving == false) {
-					
+
 					for (int i = 1; i <= 8; i++) {
 						for (int j = 1; j <= 6; j++) {
 							Tile t = grid[i][j];
-							if (t.getMatch() >= 1) {
-								
+							if (t.getMatch() == true) {
+
 								if (t.getAlpha() >= 0.008f) {
 									t.setAlpha(t.getAlpha() - 0.008f);
-									isMoving = true;
-								}
-								
-								if (t.getAlpha() == 0.000f)
-								{
 									isMoving = true;
 								}
 							}
 						}
 					}
-					
+
+					// 효과음
 					if(isMoving == true) {
-						
+
 						if(deleteCheck >= 0.008) {
 							deleteCheck = deleteCheck - 0.008;
 						}
-						
+
 						if(deleteCheck <= 0.008) {
 							Music removeSound = new Music("removeSound.mp3", false);
 							removeSound.start();
@@ -169,14 +164,21 @@ public class TileGrid implements Runnable {
 							deleteCheck = 1;
 						}
 					}
-				}
+				} //delete animation
 
-				if (isMoving == false)
-					isAnimating = false; // 무빙이 없다면 애니메이팅 종료를 알림 -> Match 쓰레드에서 기능 실행
-				Thread.sleep(3);
+				if(isMoving == false && isSwap == true)
+					Calculator.secondSwap(this);
+
+				if(isMoving == false)
+					Calculator.updateGrid(this);
+
+				try {
+					Thread.sleep(3);
+				}
+				catch (Exception e) {
+					System.err.println(e.getMessage());
+				}
 			}
-		} catch (Exception e) {
-			System.err.println(e.getMessage());
 		}
 	}
 
@@ -216,13 +218,6 @@ public class TileGrid implements Runnable {
 		this.y0 = y0;
 	}
 
-	public boolean isAnimating() {
-		return isAnimating;
-	}
-
-	public void setAnimating(boolean isAnimating) {
-		this.isAnimating = isAnimating;
-	}
 
 	public Tile[][] getGrid() {
 		return grid;

@@ -4,7 +4,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import Model.ImageData;
-import Model.Match;
+import Model.HintThread;
 import Model.Music;
 import Model.TileGrid;
 import View.GameBoardPanel;
@@ -17,7 +17,7 @@ public class OrchardController {
 	private Music backgroundMusic;
 	
 	private TileGrid grid;
-	private Match match;
+	private HintThread match;
 	private Thread matchThread;
 	
 	private ImageData imgData;
@@ -38,7 +38,7 @@ public class OrchardController {
 	public void gameStart() {
 
 			grid = new TileGrid();
-			match = new Match(grid);
+			match = new HintThread(grid);
 			matchThread = new Thread(match);
 			matchThread.start();
 			

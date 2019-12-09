@@ -12,7 +12,7 @@ public class Tile {
 	public static final int tileSize = 50;
 	private int x, y;
 	private int col, row;
-	private int match;
+	private boolean match;
 	private float alpha;
 	private TileType type;
 	private Image image;
@@ -33,7 +33,7 @@ public class Tile {
 		x = j * tileSize;
 		
 		alpha = 0.8f;
-		match = 0;
+		match = false;
 	}
 	
 	public BufferedImage getBi() {
@@ -44,11 +44,12 @@ public class Tile {
 		this.bi = bi;
 	}
 
-	public int getMatch() {
+
+	public boolean getMatch() {
 		return match;
 	}
 
-	public void setMatch(int match) {
+	public void setMatch(boolean match) {
 		this.match = match;
 	}
 
