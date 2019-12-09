@@ -55,13 +55,7 @@ public class Match implements Runnable {
 					// 세로줄의 검사
 					if (i != 8 && grid.GetTile(i,j).getType() == grid.GetTile(i+1, j).getType()) {
 						if (i != 1 && grid.GetTile(i,j).getType() == grid.GetTile(i-1, j).getType()) {
-							
-							if(grid.isAnimating() == false) {
-								Music removeSound = new Music("removeSound.mp3", false);
-								removeSound.start();
-								System.out.println("played");
-							}
-							
+														
 							for (int n = -1; n <= 1; n++) {
 								grid.GetTile(i+n, j).setMatch(grid.GetTile(i+n, j).getMatch()+1);
 							}
@@ -72,11 +66,7 @@ public class Match implements Runnable {
 					// 가로줄의 검사
 					if (j != 6 && grid.GetTile(i, j).getType() == grid.GetTile(i, j+1).getType()) {
 						if (j != 1 && grid.GetTile(i, j).getType() == grid.GetTile(i, j-1).getType()) {
-							if(grid.isAnimating() == false) {
-								Music removeSound = new Music("removeSound.mp3", false);
-								removeSound.start();
-								System.out.println("played");
-							}
+
 							for (int n = -1; n <= 1; n++) {
 								grid.GetTile(i, j+n).setMatch(grid.GetTile(i, j+n).getMatch()+1);
 							}
@@ -96,6 +86,7 @@ public class Match implements Runnable {
 						score += grid.GetTile(i, j).getMatch();
 					}
 				}
+				
 				if (grid.isSwap() == true) {
 					if (score == 0) {
 						int tmp;

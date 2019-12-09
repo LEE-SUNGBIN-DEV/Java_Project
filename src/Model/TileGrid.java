@@ -29,6 +29,9 @@ public class TileGrid implements Runnable {
 	private int x0, y0;
 	private int click =0;
 	
+	private double deleteCheck;
+	private int deleteCnt;
+	
 	private boolean isMoving;
 	private boolean isAnimating;
 	private boolean isSwap;
@@ -36,6 +39,9 @@ public class TileGrid implements Runnable {
 	private Timer _gameTimer;
 	
 	public TileGrid() {
+		
+		deleteCheck = 1;
+		deleteCnt = 0;
 		
 		// create random map
 		grid = new Tile[HEIGHT][WIDTH];
@@ -130,6 +136,7 @@ public class TileGrid implements Runnable {
 
 				// delete animation
 				if (isMoving == false) {
+					
 					for (int i = 1; i <= 8; i++) {
 						for (int j = 1; j <= 6; j++) {
 							Tile t = grid[i][j];
@@ -139,7 +146,27 @@ public class TileGrid implements Runnable {
 									t.setAlpha(t.getAlpha() - 0.008f);
 									isMoving = true;
 								}
+								
+								if (t.getAlpha() == 0.000f)
+								{
+									isMoving = true;
+								}
 							}
+						}
+					}
+					
+					if(isMoving == true) {
+						
+						if(deleteCheck >= 0.008) {
+							deleteCheck = deleteCheck - 0.008;
+						}
+						
+						if(deleteCheck <= 0.008) {
+							Music removeSound = new Music("removeSound.mp3", false);
+							removeSound.start();
+							deleteCnt++;
+							System.out.println("delete : " + deleteCnt);
+							deleteCheck = 1;
 						}
 					}
 				}
