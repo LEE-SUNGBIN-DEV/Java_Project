@@ -6,8 +6,7 @@ import javax.swing.ImageIcon;
 
 import View.OrchardView;
 
-public final class ImageData
-{
+public final class ImageData {
 	// ProcessGameView
 	private static Image backgroundBufferedImage2;
 	private static Image processBufferedImage;
@@ -21,8 +20,7 @@ public final class ImageData
 	private static Image titleBackground;
 	//
 	
-	public ImageData()
-	{
+	public ImageData() {
 		// ProcessGameView
 		backgroundBufferedImage2 = new ImageIcon("./img/Background2.jpg").getImage().getScaledInstance(OrchardView.SCREEN_WIDTH, OrchardView.SCREEN_HEIGHT, Image.SCALE_SMOOTH);
 		processBufferedImage = new ImageIcon("./img/ProcessGameScreen.png").getImage().getScaledInstance(OrchardView.SCREEN_WIDTH - 120, OrchardView.SCREEN_HEIGHT - 80, Image.SCALE_SMOOTH);

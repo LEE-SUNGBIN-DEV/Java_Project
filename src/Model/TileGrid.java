@@ -28,6 +28,7 @@ public class TileGrid implements Runnable {
 	private int x, y;
 	private int x0, y0;
 	private int click =0;
+	
 	private boolean isMoving;
 	private boolean isAnimating;
 	private boolean isSwap;
@@ -133,6 +134,7 @@ public class TileGrid implements Runnable {
 						for (int j = 1; j <= 6; j++) {
 							Tile t = grid[i][j];
 							if (t.getMatch() >= 1) {
+								
 								if (t.getAlpha() >= 0.008f) {
 									t.setAlpha(t.getAlpha() - 0.008f);
 									isMoving = true;

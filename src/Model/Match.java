@@ -55,6 +55,13 @@ public class Match implements Runnable {
 					// 세로줄의 검사
 					if (i != 8 && grid.GetTile(i,j).getType() == grid.GetTile(i+1, j).getType()) {
 						if (i != 1 && grid.GetTile(i,j).getType() == grid.GetTile(i-1, j).getType()) {
+							
+							if(grid.isAnimating() == false) {
+								Music removeSound = new Music("removeSound.mp3", false);
+								removeSound.start();
+								System.out.println("played");
+							}
+							
 							for (int n = -1; n <= 1; n++) {
 								grid.GetTile(i+n, j).setMatch(grid.GetTile(i+n, j).getMatch()+1);
 							}
@@ -65,6 +72,11 @@ public class Match implements Runnable {
 					// 가로줄의 검사
 					if (j != 6 && grid.GetTile(i, j).getType() == grid.GetTile(i, j+1).getType()) {
 						if (j != 1 && grid.GetTile(i, j).getType() == grid.GetTile(i, j-1).getType()) {
+							if(grid.isAnimating() == false) {
+								Music removeSound = new Music("removeSound.mp3", false);
+								removeSound.start();
+								System.out.println("played");
+							}
 							for (int n = -1; n <= 1; n++) {
 								grid.GetTile(i, j+n).setMatch(grid.GetTile(i, j+n).getMatch()+1);
 							}
@@ -87,23 +99,21 @@ public class Match implements Runnable {
 				if (grid.isSwap() == true) {
 					if (score == 0) {
 						int tmp;
+						
 						tmp= grid.GetTile(grid.getY0(), grid.getX0()).getCol();
 
-						//System.out.println("Before Col: " + tmp);
-						//System.out.println("Before Row: " + grid.GetTile(x0, y0).getRow());
 						grid.GetTile(grid.getY0(), grid.getX0()).setCol(grid.GetTile(grid.getY(), grid.getX()).getCol());
 						grid.GetTile(grid.getY(), grid.getX()).setCol(tmp);
-						//System.out.println("After Col: " + grid.GetTile(x0, y0).getCol());
 
 						tmp= grid.GetTile(grid.getY0(), grid.getX0()).getRow();
 						grid.GetTile(grid.getY0(), grid.getX0()).setRow(grid.GetTile(grid.getY(), grid.getX()).getRow());
 						grid.GetTile(grid.getY(), grid.getX()).setRow(tmp);
-						//System.out.println("After Row: " + grid.GetTile(x0, y0).getRow());
 
 						Tile tmpTile = grid.GetTile(grid.getY0(), grid.getX0());
 						grid.SetTile(grid.getY0(), grid.getX0(), grid.GetTile(grid.getY(), grid.getX()));
 						grid.SetTile(grid.getY(), grid.getX(), tmpTile);
 					}
+					
 
 				}
 				grid.setSwap(false);
