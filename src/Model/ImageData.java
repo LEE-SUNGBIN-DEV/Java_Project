@@ -8,32 +8,18 @@ import View.OrchardView;
 
 public final class ImageData {
 	// ProcessGameView
-	private static Image backgroundBufferedImage2;
-	private static Image processBufferedImage;
-	private static Image gameBoardBufferedImage;
-	// LoginView
-	//private Image backgroundBufferedImage; == ProcessGameView.backgroundBufferedImage
-	private static Image loginWindow;
-	private static Image registerButtonImage;
-	private static Image helpButtonImage;
-	private static Image title;
-	private static Image titleBackground;
+	private static Image backgroundBufferedImage2 = new ImageIcon("./img/Background2.jpg").getImage().getScaledInstance(OrchardView.SCREEN_WIDTH, OrchardView.SCREEN_HEIGHT, Image.SCALE_SMOOTH);
+	private static Image processBufferedImage = new ImageIcon("./img/ProcessGameScreen.png").getImage().getScaledInstance(OrchardView.SCREEN_WIDTH - 120, OrchardView.SCREEN_HEIGHT - 80, Image.SCALE_SMOOTH);
+	private static Image gameBoardBufferedImage = new ImageIcon("./img/Texture.png").getImage().getScaledInstance(300, 400, Image.SCALE_SMOOTH);
+	private static Image loginWindow = new ImageIcon("./img/trans.PNG").getImage().getScaledInstance(250, 250, Image.SCALE_SMOOTH);;
+	private static Image registerButtonImage = new ImageIcon("./img/registerbtn.png").getImage().getScaledInstance(100, 30, Image.SCALE_SMOOTH);
+	private static Image helpButtonImage = new ImageIcon("./img/helpbtn.jpg").getImage().getScaledInstance(100, 30, Image.SCALE_SMOOTH);
+	private static Image title = new ImageIcon("./img/OrchardTitle.png").getImage().getScaledInstance(400, 100, Image.SCALE_SMOOTH);
+	private static Image titleBackground = new ImageIcon("./img/OrchardTitleBackground.png").getImage().getScaledInstance(420, 120, Image.SCALE_SMOOTH);
+    
 	//
 	
 	public ImageData() {
-		// ProcessGameView
-		backgroundBufferedImage2 = new ImageIcon("./img/Background2.jpg").getImage().getScaledInstance(OrchardView.SCREEN_WIDTH, OrchardView.SCREEN_HEIGHT, Image.SCALE_SMOOTH);
-		processBufferedImage = new ImageIcon("./img/ProcessGameScreen.png").getImage().getScaledInstance(OrchardView.SCREEN_WIDTH - 120, OrchardView.SCREEN_HEIGHT - 80, Image.SCALE_SMOOTH);
-		gameBoardBufferedImage = new ImageIcon("./img/Texture.png").getImage().getScaledInstance(300, 400, Image.SCALE_SMOOTH);
-		
-		// LoginView
-		title = new ImageIcon("./img/OrchardTitle.png").getImage().getScaledInstance(400, 100, Image.SCALE_SMOOTH);
-		titleBackground = new ImageIcon("./img/OrchardTitleBackground.png").getImage().getScaledInstance(420, 120, Image.SCALE_SMOOTH);
-        loginWindow = new ImageIcon("./img/trans.PNG").getImage().getScaledInstance(250, 250, Image.SCALE_SMOOTH);
-		//backgroundBufferedImage = new ImageIcon("./img/Background2.jpg").getImage()
-		//		.getScaledInstance(OrchardView.SCREEN_WIDTH, OrchardView.SCREEN_HEIGHT, Image.SCALE_SMOOTH);
-		registerButtonImage = new ImageIcon("./img/registerbtn.png").getImage().getScaledInstance(100, 30, Image.SCALE_SMOOTH);
-		helpButtonImage = new ImageIcon("./img/helpbtn.jpg").getImage().getScaledInstance(100, 30, Image.SCALE_SMOOTH);
 	}
 
 	public static Image getBackgroundBufferedImage2() {
