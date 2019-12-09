@@ -3,6 +3,7 @@ package Controller;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import Model.ImageData;
 import Model.Match;
 import Model.Music;
 import Model.TileGrid;
@@ -19,8 +20,11 @@ public class OrchardController {
 	private Match match;
 	private Thread matchThread;
 	
+	private ImageData imgData;
+	
 	public OrchardController() {
 		
+		imgData = new ImageData();
 		_orchardView = new OrchardView();
 		_orchardView.addStartbtnListener(new startbtnListener());
 		_orchardView.addExitbtnListener(new exitbtnListener());
@@ -32,7 +36,7 @@ public class OrchardController {
 	
 	// 게임 시작화면으로 전환, 배경음악 전환 및 타이머 스타트
 	public void gameStart() {
-		
+
 			grid = new TileGrid();
 			match = new Match(grid);
 			matchThread = new Thread(match);

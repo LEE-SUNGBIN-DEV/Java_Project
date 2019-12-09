@@ -24,15 +24,17 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import Model.ImageData;
+
 @SuppressWarnings("serial")
 public class LoginView extends JPanel {
 
-	private Image backgroundBufferedImage;
-	private Image loginWindow;
-	private Image registerButtonImage;
-	private Image helpButtonImage;
-	private Image title;
-	private Image titleBackground;
+//	private Image backgroundBufferedImage;
+//	private Image loginWindow;
+//	private Image registerButtonImage;
+//	private Image helpButtonImage;
+//	private Image title;
+//	private Image titleBackground;
 	
 	private JTextField idField;
 	private JPasswordField passwordField;
@@ -45,13 +47,13 @@ public class LoginView extends JPanel {
 		setSize(OrchardView.SCREEN_WIDTH, OrchardView.SCREEN_HEIGHT);
 		setLayout(null);
 		
-        title = new ImageIcon("./img/OrchardTitle.png").getImage().getScaledInstance(400, 100, Image.SCALE_SMOOTH);
-		titleBackground = new ImageIcon("./img/OrchardTitleBackground.png").getImage().getScaledInstance(420, 120, Image.SCALE_SMOOTH);
-        loginWindow = new ImageIcon("./img/trans.PNG").getImage().getScaledInstance(250, 250, Image.SCALE_SMOOTH);
-		backgroundBufferedImage = new ImageIcon("./img/Background2.jpg").getImage()
-				.getScaledInstance(OrchardView.SCREEN_WIDTH, OrchardView.SCREEN_HEIGHT, Image.SCALE_SMOOTH);
-		registerButtonImage = new ImageIcon("./img/registerbtn.png").getImage().getScaledInstance(100, 30, Image.SCALE_SMOOTH);
-		helpButtonImage = new ImageIcon("./img/helpbtn.jpg").getImage().getScaledInstance(100, 30, Image.SCALE_SMOOTH);
+//        title = new ImageIcon("./img/OrchardTitle.png").getImage().getScaledInstance(400, 100, Image.SCALE_SMOOTH);
+//		titleBackground = new ImageIcon("./img/OrchardTitleBackground.png").getImage().getScaledInstance(420, 120, Image.SCALE_SMOOTH);
+//        loginWindow = new ImageIcon("./img/trans.PNG").getImage().getScaledInstance(250, 250, Image.SCALE_SMOOTH);
+//		backgroundBufferedImage = new ImageIcon("./img/Background2.jpg").getImage()
+//				.getScaledInstance(OrchardView.SCREEN_WIDTH, OrchardView.SCREEN_HEIGHT, Image.SCALE_SMOOTH);
+//		registerButtonImage = new ImageIcon("./img/registerbtn.png").getImage().getScaledInstance(100, 30, Image.SCALE_SMOOTH);
+//		helpButtonImage = new ImageIcon("./img/helpbtn.jpg").getImage().getScaledInstance(100, 30, Image.SCALE_SMOOTH);
 		
 		idField = new JTextField();
 		idField.setOpaque(false);
@@ -119,12 +121,12 @@ public class LoginView extends JPanel {
 
 	@Override
 	public void paint(Graphics g) {
-		g.drawImage(backgroundBufferedImage, 0, 0, null);
-		g.drawImage(titleBackground, 95, 105, null);
-		g.drawImage(title, 100, 110, null);
-		g.drawImage(registerButtonImage, 200, 500, null);
-		g.drawImage(helpButtonImage, 300, 500, null);
-		g.drawImage(loginWindow, 175, 230, null);
+		g.drawImage(ImageData.getBackgroundBufferedImage2(), 0, 0, null);
+		g.drawImage(ImageData.getTitleBackground(), 95, 105, null);
+		g.drawImage(ImageData.getTitle(), 100, 110, null);
+		g.drawImage(ImageData.getRegisterButtonImage(), 200, 500, null);
+		g.drawImage(ImageData.getHelpButtonImage(), 300, 500, null);
+		g.drawImage(ImageData.getLoginWindow(), 175, 230, null);
 		paintComponents(g);
 
 		this.repaint();
