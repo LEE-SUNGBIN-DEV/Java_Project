@@ -19,8 +19,6 @@ public class Match implements Runnable {
 	private int score;
 	private boolean stop;
 
-
-
 	public Match(TileGrid grid) {
 		this.grid = grid;
 		combo = 0;
@@ -36,34 +34,42 @@ public class Match implements Runnable {
 
 	public void run() {
 		while(!stop) {
-
+			
 			score = 0;
 			checkMatch();
-
-			System.out.println(score);
 			
-			if(score == 0 && (grid.getIsSwap() == false)) {
+//			if(score == 0 && (grid.getIsSwap() == false)) {
+//				System.out.println("1");
+//				movingAnimation();
+//				
+//			}
+			
+			if(score > 0 && (grid.getIsSwap() == false)) {
+				System.out.println("2");
 				movingAnimation();
-			}
-			
-			else if(score>0 && (grid.getIsSwap() == false)) {
 				deleteAnimation();
-				updateGrid();
+				updateGrid();	
 			}
 
-			else if(score>0 && (grid.getIsSwap() == true)) {
+			else if(score > 0 && (grid.getIsSwap() == true)) {
+				System.out.println("3");
 				movingAnimation();
 				deleteAnimation();
 				updateGrid();
 				grid.setIsSwap(false);
+				
 			}
 
 			else if(score == 0 && (grid.getIsSwap() == true)) {
+				System.out.println("4");
 				movingAnimation();
 				secondSwap();
 				movingAnimation();
 				grid.setIsSwap(false);
+				
 			}
+			
+			
 		}//while
 	}// run
 
@@ -108,10 +114,8 @@ public class Match implements Runnable {
 						}
 					}
 				}
-				Thread.sleep(5);
-				System.out.println(cnt);
+				Thread.sleep(3);
 			}
-
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -139,7 +143,7 @@ public class Match implements Runnable {
 						}
 					}
 				}
-				Thread.sleep(5);
+				Thread.sleep(3);
 			}
 
 		} catch(InterruptedException e) {
@@ -148,6 +152,8 @@ public class Match implements Runnable {
 	}
 
 	public void updateGrid() {
+		int updateColCount = 0;
+		
 		for (int i = 8; i > 0; i--) {
 			for (int j = 1; j <= 6; j++) {
 				if (grid.GetTile(i, j).getMatch()>=1) {
@@ -161,8 +167,7 @@ public class Match implements Runnable {
 				}
 			}
 		}
-		movingAnimation();
-
+		
 		for (int j = 1; j <= 6; j++) {
 			for (int i = 8, n = 0; i > 0; i--) {
 				if (grid.GetTile(i, j).getMatch()>=1) {
@@ -193,12 +198,15 @@ public class Match implements Runnable {
 					}
 					grid.GetTile(i, j).setImage(grid.GetTile(i, j).getBi().getScaledInstance(40, 40, Image.SCALE_SMOOTH));
 					grid.GetTile(i, j).setY(-50 * n++); // tilesize = 50
+					if(updateColCount < n) updateColCount = n;
 					grid.GetTile(i, j).setMatch(0);
 					grid.GetTile(i, j).setAlpha(1.0f);
 				}
 			}
 		}
-		movingAnimation();
+		
+		for(int i = 0; i<updateColCount; i++)
+			movingAnimation();
 	}
 
 
