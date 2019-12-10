@@ -29,9 +29,6 @@ public class TileGrid implements Runnable {
 	private int x0, y0;
 	private int click =0;
 	
-	private double deleteCheck;
-	private int deleteCnt;
-	
 	private boolean isMoving;
 	private boolean isAnimating;
 	private boolean isSwap;
@@ -39,9 +36,6 @@ public class TileGrid implements Runnable {
 	private Timer _gameTimer;
 	
 	public TileGrid() {
-		
-		deleteCheck = 1;
-		deleteCnt = 0;
 		
 		// create random map
 		grid = new Tile[HEIGHT][WIDTH];
@@ -69,8 +63,6 @@ public class TileGrid implements Runnable {
 				grid[i][j] = new Tile(i, j, type);
 			}
 		}
-		Thread gridThread = new Thread(this);
-		gridThread.start();
 	}
 
 	public void clickCheck(Point pos) {
@@ -100,88 +92,25 @@ public class TileGrid implements Runnable {
 	}
 	
 	public void addCheckCount() {
-		if (!isSwap && !isMoving)
+		if (!isSwap)
 			click++;
 	}
 	
 	@Override
 	public void run() {
 		try {
-			while (true) {
-				
-				// moving animaion
-				isAnimating = true;
-				isMoving = false;
-				for (int i = 1; i <= 8; i++) {
-					for (int j = 1; j <= 6; j++) {
-						Tile t = grid[i][j];
-						int tx, ty;
-						int dx, dy;
-						tx = t.getX();
-						ty = t.getY();
-
-						dx = tx - t.getCol() * Tile.tileSize;
-						dy = ty - t.getRow() * Tile.tileSize;
-						if (dx != 0) {
-							t.setX(tx - dx / abs(dx));
-						}
-						if (dy != 0) {
-							t.setY(ty - dy / abs(dy));
-						}
-						if (dx != 0 || dy != 0) {
-							isMoving = true;
-						}
-					}
-				}
-
-				// delete animation
-				if (isMoving == false) {
-					
-					for (int i = 1; i <= 8; i++) {
-						for (int j = 1; j <= 6; j++) {
-							Tile t = grid[i][j];
-							if (t.getMatch() >= 1) {
-								
-								if (t.getAlpha() >= 0.008f) {
-									t.setAlpha(t.getAlpha() - 0.008f);
-									isMoving = true;
-								}
-								
-								if (t.getAlpha() == 0.000f)
-								{
-									isMoving = true;
-								}
-							}
-						}
-					}
-					
-					if(isMoving == true) {
-						
-						if(deleteCheck >= 0.008) {
-							deleteCheck = deleteCheck - 0.008;
-						}
-						
-						if(deleteCheck <= 0.008) {
-							Music removeSound = new Music("removeSound.mp3", false);
-							removeSound.start();
-							deleteCnt++;
-							System.out.println("delete : " + deleteCnt);
-							deleteCheck = 1;
-						}
-					}
-				}
-
-				if (isMoving == false)
-					isAnimating = false; // 무빙이 없다면 애니메이팅 종료를 알림 -> Match 쓰레드에서 기능 실행
-				Thread.sleep(3);
-			}
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
 	}
 
-	public boolean isSwap() {
+	public boolean getIsSwap() {
 		return isSwap;
+	}
+	
+	public void setIsSwap(boolean isSwap)
+	{
+		this.isSwap = isSwap;
 	}
 
 	public int getX() {
