@@ -3,6 +3,12 @@ package Controller;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+<<<<<<< HEAD
+import javax.swing.JOptionPane;
+
+=======
+import Model.ImageData;
+>>>>>>> ac2e3653a6e315c9f3f20eb6336c364bfa6423bd
 import Model.Match;
 import Model.Music;
 import Model.TileGrid;
@@ -19,11 +25,20 @@ public class OrchardController {
 	private Match match;
 	private Thread matchThread;
 	
+	private ImageData imgData;
+	
 	public OrchardController() {
 		
+		imgData = new ImageData();
 		_orchardView = new OrchardView();
 		_orchardView.addStartbtnListener(new startbtnListener());
 		_orchardView.addExitbtnListener(new exitbtnListener());
+		
+		try {
+			AuthAPI.connectDB();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		backgroundMusic = new Music("BackgroundMusic.mp3", true);
 		backgroundMusic.start();
@@ -32,7 +47,7 @@ public class OrchardController {
 	
 	// 게임 시작화면으로 전환, 배경음악 전환 및 타이머 스타트
 	public void gameStart() {
-		
+
 			grid = new TileGrid();
 			match = new Match(grid);
 			matchThread = new Thread(match);
@@ -91,11 +106,18 @@ public class OrchardController {
 	private class startbtnListener implements MouseListener {
 		@Override
 		public void mouseClicked(MouseEvent e) {
+			boolean isValid;
+			isValid = _orchardView.checkValid();
+			if(isValid) {
+				JOptionPane.showMessageDialog(_orchardView,"Do you want to Start game?!", "Login Success", JOptionPane.INFORMATION_MESSAGE);
+				gameStart();
+			} else {
+				JOptionPane.showMessageDialog(_orchardView,"Please check your ID or Password!", "Login Failed", JOptionPane.INFORMATION_MESSAGE);
+			}
 		}
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			gameStart();
 		}
 
 		@Override
