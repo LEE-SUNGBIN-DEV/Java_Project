@@ -6,7 +6,11 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
+<<<<<<< HEAD
 	<classpathentry kind="lib" path="C:/Users/chajy/eclipse/java-2019-06/eclipse/plugins/sqlite-jdbc-3.27.2.1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/chajy/Downloads/jlayer1.0.1/JLayer1.0.1/jl1.0.1.jar"/>
+=======
+	<classpathentry kind="lib" path="C:/Users/eien1/OneDrive/바탕 화면/JLayer1.0.1/jl1.0.1.jar"/>
+>>>>>>> f4f27b75aea66a5b74ef9f9e59390b6b30261a87
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -3,10 +3,15 @@ package Controller;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+<<<<<<< HEAD
 	
 import javax.swing.JOptionPane;
 
 import Model.ResourceData;
+=======
+import Model.ImageData;
+import Model.Match;
+>>>>>>> f4f27b75aea66a5b74ef9f9e59390b6b30261a87
 import Model.Music;
 import Model.TileGrid;
 import View.GameBoardPanel;
@@ -23,10 +28,16 @@ public class OrchardController {
 	private Thread bejeweledThread;
 	private boolean _functionProcessing;
 	
+	private ImageData imgData;
+	
 	public OrchardController() {
 		
+<<<<<<< HEAD
 		backgroundMusic = new Music("BackgroundMusic.mp3", true);
 		backgroundMusic.start();
+=======
+		imgData = new ImageData();
+>>>>>>> f4f27b75aea66a5b74ef9f9e59390b6b30261a87
 		_orchardView = new OrchardView();
 		_orchardView.addStartbtnListener(new startbtnListener());
 		_orchardView.addExitbtnListener(new exitbtnListener());
