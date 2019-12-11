@@ -10,14 +10,14 @@ public class OrchardView extends JFrame{
 
 	public static int SCREEN_WIDTH = 480 + 120, SCREEN_HEIGHT = 600 + 80;
 
-	private LoginView loginPanel;
+	private StartView loginPanel;
 	private ProcessGameView processGamePanel;
 	
 	public OrchardView() {
 		initialize();
 	}
 
-	private void initialize() {
+	private void initialize() {	
 	
 		// Frame초기화
 		setUndecorated(true);
@@ -28,7 +28,7 @@ public class OrchardView extends JFrame{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		// 프로그램에 필요한 패널들을 미리 생성
-		loginPanel = new LoginView();
+		loginPanel = new StartView();
 		loginPanel.setVisible(true);
 		add(loginPanel);
 		

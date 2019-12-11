@@ -16,16 +16,10 @@ public class Tile {
 	private float alpha;
 	private TileType type;
 	private Image image;
-	private BufferedImage bi;
 	
-	public Tile(int i, int j, TileType type) {
+	public Tile(int i, int j, TileType type, Image img) {
 		this.type = type;
-		try {
-			bi = ImageIO.read(new File(type.getPath()));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		image = bi.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+		image = img;
 		row = i;
 		y = i * tileSize;
 		
@@ -36,14 +30,6 @@ public class Tile {
 		match = 0;
 	}
 	
-	public BufferedImage getBi() {
-		return bi;
-	}
-
-	public void setBi(BufferedImage bi) {
-		this.bi = bi;
-	}
-
 	public int getMatch() {
 		return match;
 	}

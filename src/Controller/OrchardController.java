@@ -3,13 +3,10 @@ package Controller;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-<<<<<<< HEAD
+	
 import javax.swing.JOptionPane;
 
-=======
-import Model.ImageData;
->>>>>>> ac2e3653a6e315c9f3f20eb6336c364bfa6423bd
-import Model.Match;
+import Model.ResourceData;
 import Model.Music;
 import Model.TileGrid;
 import View.GameBoardPanel;
@@ -22,14 +19,14 @@ public class OrchardController {
 	private Music backgroundMusic;
 	
 	private TileGrid grid;
-	private Match match;
-	private Thread matchThread;
-	
-	private ImageData imgData;
+	private Bejeweled bejeweled;
+	private Thread bejeweledThread;
+	private boolean _functionProcessing;
 	
 	public OrchardController() {
 		
-		imgData = new ImageData();
+		backgroundMusic = new Music("BackgroundMusic.mp3", true);
+		backgroundMusic.start();
 		_orchardView = new OrchardView();
 		_orchardView.addStartbtnListener(new startbtnListener());
 		_orchardView.addExitbtnListener(new exitbtnListener());
@@ -39,9 +36,7 @@ public class OrchardController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		backgroundMusic = new Music("BackgroundMusic.mp3", true);
-		backgroundMusic.start();
+	
 	}
 	
 	
@@ -49,18 +44,18 @@ public class OrchardController {
 	public void gameStart() {
 
 			grid = new TileGrid();
-			match = new Match(grid);
-			matchThread = new Thread(match);
-			matchThread.start();
+
+			bejeweled = new Bejeweled(grid);
+			bejeweledThread = new Thread(bejeweled);
 			
 			_gameBoard = new GameBoardPanel(grid);
 			_gameBoard.addGameListener(new gameListener());
 			_orchardView.changeToGameView(_gameBoard);
-
+			bejeweledThread.start();
+			
 			backgroundMusic.close();
 			backgroundMusic = new Music("ProcessGameMusic.mp3", true);
 			backgroundMusic.start();
-			
 	}
 		
 	public void endGame() {
@@ -68,9 +63,6 @@ public class OrchardController {
 		grid = null;
 		
 		// singleton 활용방안 모색
-		match.stop();
-		match = null;
-		
 		_gameBoard = null;
 		_orchardView.changeToLoginView();
 		
@@ -82,8 +74,13 @@ public class OrchardController {
 	private class gameListener implements MouseListener {
 		@Override
 		public void mousePressed(MouseEvent e) {
-			grid.addCheckCount();
-			grid.clickCheck(e.getPoint());
+			// when bejeweled function isn't processing
+			_functionProcessing = bejeweled.functionProcessing;
+			System.out.println(_functionProcessing);
+			if(!_functionProcessing) {
+				grid.addClickCount();
+				grid.clickCheck(e.getPoint());
+			}
 		}
 
 		@Override
@@ -107,13 +104,13 @@ public class OrchardController {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			boolean isValid;
-			isValid = _orchardView.checkValid();
-			if(isValid) {
+//			isValid = _orchardView.checkValid();
+//			if(isValid) {
 				JOptionPane.showMessageDialog(_orchardView,"Do you want to Start game?!", "Login Success", JOptionPane.INFORMATION_MESSAGE);
 				gameStart();
-			} else {
-				JOptionPane.showMessageDialog(_orchardView,"Please check your ID or Password!", "Login Failed", JOptionPane.INFORMATION_MESSAGE);
-			}
+//			} else {
+//				JOptionPane.showMessageDialog(_orchardView,"Please check your ID or Password!", "Login Failed", JOptionPane.INFORMATION_MESSAGE);
+//			}
 		}
 
 		@Override

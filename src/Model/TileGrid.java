@@ -16,7 +16,7 @@ import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-public class TileGrid implements Runnable {
+public class TileGrid {
 
 	public static final int WIDTH = 8;
 	public static final int HEIGHT = 10;
@@ -27,19 +27,18 @@ public class TileGrid implements Runnable {
 	private Tile[][] grid;
 	private int x, y;
 	private int x0, y0;
-	private int click =0;
-	
+	private int click;
+	private Image img;
 	private double deleteCheck;
 	private int deleteCnt;
 	
-	private boolean isMoving;
-	private boolean isAnimating;
 	private boolean isSwap;
 	
 	private Timer _gameTimer;
 	
 	public TileGrid() {
 		
+		click = 0;
 		deleteCheck = 1;
 		deleteCnt = 0;
 		
@@ -52,39 +51,40 @@ public class TileGrid implements Runnable {
 				switch (random_number) {
 				case 1:
 					type = TileType.Banana;
+					img = Model.ResourceData.bananaImg;
 					break;
 				case 2:
-					type = TileType.Grapes;
+					type = TileType.Apple;
+					img = Model.ResourceData.appleImg;
 					break;
 				case 3:
 					type = TileType.Lemon;
+					img = Model.ResourceData.lemonImg;
 					break;
 				case 4:
 					type = TileType.Orange;
+					img = Model.ResourceData.orangeImg;
 					break;
 				case 5:
 					type = TileType.Pear;
+					img = Model.ResourceData.pearImg;
 					break;
 				}
-				grid[i][j] = new Tile(i, j, type);
+				grid[i][j] = new Tile(i, j, type, img);
 			}
 		}
-		Thread gridThread = new Thread(this);
-		gridThread.start();
 	}
 
 	public void clickCheck(Point pos) {
-
+		
 		// mouse click
 		if (click == 1) {
 			// x좌표는 열*size
 			// y좌표는 행*size
-//			timer.getCurrentTime();
 			x0 = pos.x / Tile.tileSize;
 			y0 = pos.y / Tile.tileSize;
 		}
 		if (click == 2) {
-//			timer.getCurrentTime();
 			x = pos.x / Tile.tileSize;
 			y = pos.y / Tile.tileSize;
 			if (abs(x - x0) + abs(y - y0) == 1) {
@@ -97,89 +97,18 @@ public class TileGrid implements Runnable {
 				click = 1;
 			}
 		}
-	}
-	
-	public void addCheckCount() {
-		if (!isSwap && !isMoving)
-			click++;
-	}
-	
-	@Override
-	public void run() {
-		try {
-			while (true) {
-				
-				// moving animaion
-				isAnimating = true;
-				isMoving = false;
-				for (int i = 1; i <= 8; i++) {
-					for (int j = 1; j <= 6; j++) {
-						Tile t = grid[i][j];
-						int tx, ty;
-						int dx, dy;
-						tx = t.getX();
-						ty = t.getY();
-
-						dx = tx - t.getCol() * Tile.tileSize;
-						dy = ty - t.getRow() * Tile.tileSize;
-						if (dx != 0) {
-							t.setX(tx - dx / abs(dx));
-						}
-						if (dy != 0) {
-							t.setY(ty - dy / abs(dy));
-						}
-						if (dx != 0 || dy != 0) {
-							isMoving = true;
-						}
-					}
-				}
-
-				// delete animation
-				if (isMoving == false) {
-					
-					for (int i = 1; i <= 8; i++) {
-						for (int j = 1; j <= 6; j++) {
-							Tile t = grid[i][j];
-							if (t.getMatch() >= 1) {
-								
-								if (t.getAlpha() >= 0.008f) {
-									t.setAlpha(t.getAlpha() - 0.008f);
-									isMoving = true;
-								}
-								
-								if (t.getAlpha() == 0.000f)
-								{
-									isMoving = true;
-								}
-							}
-						}
-					}
-					
-					if(isMoving == true) {
-						
-						if(deleteCheck >= 0.008) {
-							deleteCheck = deleteCheck - 0.008;
-						}
-						
-						if(deleteCheck <= 0.008) {
-							Music removeSound = new Music("removeSound.mp3", false);
-							removeSound.start();
-							deleteCnt++;
-							System.out.println("delete : " + deleteCnt);
-							deleteCheck = 1;
-						}
-					}
-				}
-
-				if (isMoving == false)
-					isAnimating = false; // 무빙이 없다면 애니메이팅 종료를 알림 -> Match 쓰레드에서 기능 실행
-				Thread.sleep(3);
-			}
-		} catch (Exception e) {
-			System.err.println(e.getMessage());
+		if(click > 3) {
+			x0 = x;
+			y0 = y;
+			click = 1;
 		}
 	}
-
+	
+	public void addClickCount() {
+		click++;
+		System.out.println(click);
+	}
+	
 	public boolean isSwap() {
 		return isSwap;
 	}
@@ -216,13 +145,6 @@ public class TileGrid implements Runnable {
 		this.y0 = y0;
 	}
 
-	public boolean isAnimating() {
-		return isAnimating;
-	}
-
-	public void setAnimating(boolean isAnimating) {
-		this.isAnimating = isAnimating;
-	}
 
 	public Tile[][] getGrid() {
 		return grid;

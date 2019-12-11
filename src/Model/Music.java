@@ -17,7 +17,7 @@ public class Music extends Thread {
 	public Music(String name, boolean loop) {
 		try {
 			this.loop = loop;
-			file = new File("./sound/" + name);
+			file = new File("./res/sound/" + name);
 			fis = new FileInputStream(file);
 			bis = new BufferedInputStream(fis);
 			player = new Player(bis);

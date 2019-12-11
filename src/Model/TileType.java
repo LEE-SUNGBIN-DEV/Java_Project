@@ -2,7 +2,7 @@ package Model;
 
 public enum TileType {
 
-	Grapes("apple.png"),
+	Apple("apple.png"),
 	Banana("banana.png"),
 	Lemon("lemon.png"),
 	Orange("orange.png"),
