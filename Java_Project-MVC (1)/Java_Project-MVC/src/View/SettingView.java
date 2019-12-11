@@ -18,7 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 
-public class SettingPanel extends JPanel {
+public class SettingView extends JPanel {
 //환경설정 패널을 만든다.
 	private JButton settingBtn; //settingBtn을 누르면 settingPanel이 뜨는 버튼을 만든다.
 	private JButton resumeBtn; // 게임화면으로 돌아가는 버튼을 만든다.
@@ -39,12 +39,12 @@ public class SettingPanel extends JPanel {
 	public static boolean optionbtnOnOff;
 	private boolean exitbtnOnOff;
 
-	private OptionPanel optionPanel;
+	private OptionView optionPanel;
 	
 	
 //	private ButtonListener buttonL;
 	
-	public SettingPanel(JButton btn1, JButton btn2, JButton btn3)
+	public SettingView(JButton btn1, JButton btn2, JButton btn3)
 	{
 		//SettingPanel 생성자를 파라미터 생성자로 만든다.
 		// 파라미터에는 이미지 파일 3개와, 버튼 3 개를 받는다.
@@ -116,7 +116,7 @@ public class SettingPanel extends JPanel {
 	     backBtn.setSize(250,100);
 	      
 	      
-	     optionPanel = new OptionPanel(resumeBtn, optionBtn, exitBtn, musicBtn, modeBtn, backBtn);
+	     optionPanel = new OptionView(resumeBtn, optionBtn, exitBtn, musicBtn, modeBtn, backBtn);
 	     
 //	      setOptionPanel(new OptionPanel());
 	      this.add(optionPanel);

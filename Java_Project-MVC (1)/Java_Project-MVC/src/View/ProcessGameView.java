@@ -28,7 +28,7 @@ public class ProcessGameView extends JPanel {
 	private JButton resumeBtn; // 게임화면으로 돌아가는 버튼을 만든다.
 	private JButton optionBtn; // 옵션패널로 들어가는 버튼을 만든다.
 	private JButton exitBtn; // 게임을 종료하는 버튼을 만든다.
-	private SettingPanel settingPanel;
+	private SettingView settingPanel;
 	
 	private boolean btnOnOff;
 	
@@ -68,7 +68,7 @@ public class ProcessGameView extends JPanel {
 		exitBtn.setSize(250,100);
 		
 		
-		settingPanel = new SettingPanel(resumeBtn, optionBtn, exitBtn);
+		settingPanel = new SettingView(resumeBtn, optionBtn, exitBtn);
 		add(settingPanel);
 		
 		ActionListener listener = new ActionListener() {

@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-public class OptionPanel extends JPanel {
+public class OptionView extends JPanel {
 
 	private JButton resumeBtn;
 	private JButton optionBtn;
@@ -24,7 +24,7 @@ public class OptionPanel extends JPanel {
 	private boolean modebtnOnOff;
 	public static boolean backbtnOnOff;
 
-	public OptionPanel(JButton btn1, JButton btn2, JButton btn3, JButton btn4, JButton btn5, JButton btn6) {
+	public OptionView(JButton btn1, JButton btn2, JButton btn3, JButton btn4, JButton btn5, JButton btn6) {
 
       setSize(600, 680);
       setLayout(null);
@@ -128,7 +128,7 @@ public class OptionPanel extends JPanel {
                   optionBtn.setVisible(true);
                   exitBtn.setVisible(true);
                   
-                  SettingPanel.optionbtnOnOff = false;
+                  SettingView.optionbtnOnOff = false;
                   
 //                  setVisible(false);
                   
